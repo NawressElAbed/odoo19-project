@@ -53,9 +53,10 @@ pipeline {
             }
         }
 
-        stage('Update Odoo modules') {
+ stage('Update Odoo modules') {
     steps {
         bat '''
+        set PYTHONPATH=C:\\odoo1
         venv\\Scripts\\python.exe C:\\odoo1\\odoo-bin -d odoo_new -u dashboard_recruteur,pfe --stop-after-init
         '''
     }
