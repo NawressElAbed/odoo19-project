@@ -54,12 +54,12 @@ pipeline {
         }
 
         stage('Update Odoo modules') {
-            steps {
-                bat '''
-                venv\\Scripts\\python.exe odoo-bin -d odoo_new -u dashboard_recruteur,pfe --stop-after-init
-                '''
-            }
-        }
+    steps {
+        bat '''
+        venv\\Scripts\\python.exe C:\\odoo1\\odoo-bin -d odoo_new -u dashboard_recruteur,pfe --stop-after-init
+        '''
+    }
+}
 
         stage('Restart Odoo') {
             steps {
