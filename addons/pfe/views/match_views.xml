@@ -1,0 +1,56 @@
+<odoo>
+
+    <record id="view_job_cv_match_list" model="ir.ui.view">
+        <field name="name">job.cv.match.list</field>
+        <field name="model">job.cv.match</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="applicant_id" string="🧑 Applicant"/>
+                <field name="job_id" string="🏢 Job"/>
+                <field name="score" string="✏️ Score"/>
+
+                <field name="star_display" string="⭐ Evaluation"/>
+                <field name="mention" string="💯 Mention"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_job_cv_match_form" model="ir.ui.view">
+        <field name="name">job.cv.match.form</field>
+        <field name="model">job.cv.match</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="run_matching"
+                            type="object"
+                            string="Lancer Matching"
+                            class="btn-primary"/>
+                </header>
+
+                <sheet>
+                    <group>
+                        <field name="applicant_id" string="🧑 Applicant"/>
+                        <field name="job_id" string="🏢 Job"/>
+                        <field name="score" string="✏️ Score"/>
+
+                        <field name="star_display" readonly="1" string="⭐ Evaluation"/>
+                        <field name="mention" string="💯 Mention"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_job_cv_match" model="ir.actions.act_window">
+        <field name="name">Matching CVs</field>
+        <field name="res_model">job.cv.match</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_ai_matching_root" name="AI Matching"/>
+    <menuitem id="menu_ai_matching"
+              name="CV ↔ Jobs"
+              parent="menu_ai_matching_root"
+              action="action_job_cv_match"/>
+
+</odoo>

@@ -1,0 +1,19 @@
+<odoo>
+    <record id="static_dashboard_hr" model="static.dashboard">
+        <field name="title">Resource humaine</field>
+        <field name="nbre_candidats">4</field>
+        <field name="nbre_postes">2</field>
+    </record>
+
+    <record id="static_dashboard_web" model="static.dashboard">
+        <field name="title">Développement web</field>
+        <field name="nbre_candidats">10</field>
+        <field name="nbre_postes">3</field>
+    </record>
+
+    <record id="static_dashboard_mobile" model="static.dashboard">
+        <field name="title">Développement mobile</field>
+        <field name="nbre_candidats">7</field>
+        <field name="nbre_postes">5</field>
+    </record>
+</odoo>

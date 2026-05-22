@@ -1,0 +1,82 @@
+.kanban_container {
+    display: flex;
+    flex-direction: row;
+}
+
+/* Sidebar fixe */
+.my_sidebar {
+    width: 220px;
+    background: #f5f5f5;
+    padding: 15px;
+    border-right: 1px solid #ddd;
+    min-height: 100vh;
+    position: fixed;
+    top: 70px;
+    left: 0;
+}
+
+/* Zone des cartes */
+.cards_container {
+    margin-left: 240px;
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Carte */
+.card_style {
+    background-color: #c299dc !important;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px;
+    width: 300px;
+    color: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* Ligne info */
+.my_row_style {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.dashboard_with_sidebar {
+    padding-left: 240px !important;
+}
+
+.my_sidebar {
+    position: fixed;
+    top: 46px;
+    left: 0;
+    width: 220px;
+    height: 100%;
+    background: white;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.my_sidebar h3 {
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.my_sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.my_sidebar li {
+    padding: 14px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    background: #c299dc;
+    color: white;
+    cursor: pointer;
+}
+
+.custom-white-btn {
+    color: white !important;
+    text-decoration: none !important;
+}
+

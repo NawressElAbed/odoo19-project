@@ -1,0 +1,473 @@
+<odoo>
+
+    <record id="view_static_dashboard_kanban" model="ir.ui.view">
+        <field name="name">static.dashboard.kanban</field>
+        <field name="model">static.dashboard</field>
+        <field name="arch" type="xml">
+
+            <kanban class="o_kanban_dashboard o_dashboard_recruteur">
+
+               <templates>
+    <t t-name="card" class="card_style">
+
+        <div t-if="record.title.raw_value == 'Développement web'">
+
+    <button type="object" name="action_open_blank_page" class="btn btn-link">
+        <div class="o_kanban_primary">
+            <strong><field name="title"/></strong>
+        </div>
+
+        <div class="o_kanban_secondary my_row_style">
+            <div class="my_left_style">
+                Nombre des candidats : <field name="nbre_candidats"/>
+            </div>
+            <div class="my_right_style">
+                Nombre des postes : <field name="nbre_postes"/>
+            </div>
+        </div>
+    </button>
+
+   <button type="object"
+        name="action_show_candidate_emails"
+        class="btn btn-primary">
+    Envoyer à
+</button>
+
+</div>
+
+        <div t-if="record.title.raw_value == 'Développement mobile'">
+            <button type="object"
+                    name="action_open_blank_page_mobile"
+                    class="btn btn-link">
+                <div class="o_kanban_primary">
+                    <strong><field name="title"/></strong>
+                </div>
+
+                <div class="o_kanban_secondary my_row_style">
+                    <div class="my_left_style">
+                        Nombre des candidats : <field name="nbre_candidats"/>
+                    </div>
+                    <div class="my_right_style">
+                        Nombre des postes : <field name="nbre_postes"/>
+                    </div>
+                </div>
+            </button>
+   <button type="object"
+        name="action_show_candidate_emails"
+        class="btn btn-primary">
+    Envoyer à
+</button>
+        </div>
+
+        <div t-if="record.title.raw_value == 'Resource humaine'">
+            <button type="object"
+                    name="action_open_blank_page_resource"
+                    class="btn btn-link">
+                <div class="o_kanban_primary">
+                    <strong><field name="title"/></strong>
+                </div>
+
+                <div class="o_kanban_secondary my_row_style">
+                    <div class="my_left_style">
+                        Nombre des candidats : <field name="nbre_candidats"/>
+                    </div>
+                    <div class="my_right_style">
+                        Nombre des postes : <field name="nbre_postes"/>
+                    </div>
+                </div>
+            </button>
+   <button type="object"
+        name="action_show_candidate_emails"
+        class="btn btn-primary">
+    Envoyer à
+</button>
+        </div>
+
+        <div class="oe_kanban_global_click"
+             t-if="record.title.raw_value != 'Développement web' and record.title.raw_value != 'Développement mobile' and record.title.raw_value != 'Resource humaine'">
+
+            <div class="o_kanban_primary">
+                <strong><field name="title"/></strong>
+            </div>
+
+            <div class="o_kanban_secondary my_row_style">
+                <div class="my_left_style">
+                    Nombre des candidats : <field name="nbre_candidats"/>
+                </div>
+                <div class="my_right_style">
+                    Nombre des postes : <field name="nbre_postes"/>
+                </div>
+            </div>
+
+        </div>
+
+    </t>
+
+</templates>
+            </kanban>
+
+        </field>
+    </record>
+    <record id="view_static_dashboard_graph" model="ir.ui.view">
+    <field name="name">static.dashboard.graph</field>
+    <field name="model">static.dashboard</field>
+    <field name="arch" type="xml">
+        <graph string="Répartition des candidats" type="pie">
+    <field name="title" type="row"/>
+    <field name="nbre_candidats" type="measure" sum="True"/>
+</graph>
+    </field>
+</record>
+
+    <record id="action_static_dashboard" model="ir.actions.act_window">
+        <field name="name">Tableau de bord statique</field>
+        <field name="res_model">static.dashboard</field>
+        <field name="view_mode">kanban,graph</field>
+        <field name="target">current</field>
+    </record>
+
+    <record id="view_blank_page_form_page1" model="ir.ui.view">
+        <field name="name">blank.page.form.page1</field>
+        <field name="model">blank.page</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+           <form>
+    <header>
+        <button name="action_open_quiz_page2"
+                type="object"
+                string="Suivant →"
+                class="btn-primary"/>
+    </header>
+
+    <sheet>
+        <h2 style="text-align:center;">Quiz - Page 1 / 2</h2>
+
+        <group>
+            <field name="question1"/>
+            <field name="question2"/>
+            <field name="question3"/>
+        </group>
+    </sheet>
+</form>
+        </field>
+    </record>
+
+    <record id="view_blank_page_form_page2" model="ir.ui.view">
+        <field name="name">blank.page.form.page2</field>
+        <field name="model">blank.page</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form>
+   <header>
+    <button name="action_back_to_quiz_page1"
+            type="object"
+            string="← Retour"
+            class="btn-secondary"/>
+
+    <button name="action_show_result"
+            type="object"
+            string="Terminer"
+            class="btn-success"/>
+</header>
+
+    <sheet>
+        <h2 style="text-align:center;">Quiz - Page 2 / 2</h2>
+
+        <group>
+            <field name="question4"/>
+            <field name="question5"/>
+            <field name="question6"/>
+        </group>
+    </sheet>
+</form>
+        </field>
+    </record>
+
+    <record id="action_blank_page" model="ir.actions.act_window">
+        <field name="name">Quiz - Page 1 (1/2)</field>
+        <field name="res_model">blank.page</field>
+        <field name="view_mode">form</field>
+        <field name="views">[(ref('dashboard_recruteur.view_blank_page_form_page1'), 'form')]</field>
+        <field name="target">current</field>
+        <field name="context">{'create': False}</field>
+    </record>
+
+    <record id="action_blank_page_mobile" model="ir.actions.act_window">
+    <field name="name">Quiz Mobile</field>
+    <field name="res_model">blank.page.mobile</field>
+    <field name="view_mode">form</field>
+    <field name="views">[(ref('dashboard_recruteur.view_blank_page_form_page1_mobile'), 'form')]</field>
+    <field name="target">current</field>
+</record>
+
+    <record id="action_blank_page_resource" model="ir.actions.act_window">
+    <field name="name">Quiz RH</field>
+    <field name="res_model">blank.page.resource</field>
+    <field name="view_mode">form</field>
+    <field name="views">[(ref('dashboard_recruteur.view_blank_page_form_page1_resource'), 'form')]</field>
+    <field name="target">current</field>
+</record>
+
+
+    <record id="view_blank_page_form_page1_mobile" model="ir.ui.view">
+        <field name="name">blank.page.form.page1.mobile</field>
+        <field name="model">blank.page.mobile</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+           <form>
+    <header>
+        <button name="action_open_quiz_page2_mobile"
+                type="object"
+                string="Suivant →"
+                class="btn-primary"/>
+    </header>
+
+    <sheet>
+        <h2 style="text-align:center;">Quiz - Page 1 / 2</h2>
+
+        <group>
+            <field name="question1"/>
+            <field name="question2"/>
+            <field name="question3"/>
+        </group>
+    </sheet>
+</form>
+        </field>
+    </record>
+    <record id="view_blank_page_form_page2_mobile" model="ir.ui.view">
+        <field name="name">blank.page.form.page2.mobile</field>
+        <field name="model">blank.page.mobile</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form>
+    <header>
+    <button name="action_back_to_quiz_page1_mobile"
+            type="object"
+            string="← Retour"
+            class="btn-secondary"/>
+
+    <button name="action_show_result"
+            type="object"
+            string="Terminer"
+            class="btn-success"/>
+</header>
+
+    <sheet>
+        <h2 style="text-align:center;">Quiz - Page 2 / 2</h2>
+
+        <group>
+            <field name="question4"/>
+            <field name="question5"/>
+            <field name="question6"/>
+        </group>
+    </sheet>
+</form>
+        </field>
+    </record>
+
+
+    <record id="view_blank_page_form_page1_resource" model="ir.ui.view">
+        <field name="name">blank.page.form.page1.resource</field>
+        <field name="model">blank.page.resource</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+           <form>
+    <header>
+        <button name="action_open_quiz_page2_resource"
+                type="object"
+                string="Suivant →"
+                class="btn-primary"/>
+    </header>
+
+    <sheet>
+        <h2 style="text-align:center;">Quiz - Page 1 / 2</h2>
+
+        <group>
+            <field name="question1"/>
+            <field name="question2"/>
+            <field name="question3"/>
+        </group>
+    </sheet>
+</form>
+        </field>
+    </record>
+
+    <record id="view_blank_page_form_page2_resource" model="ir.ui.view">
+        <field name="name">blank.page.form.page2.resource</field>
+        <field name="model">blank.page.resource</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form>
+    <header>
+    <button name="action_back_to_quiz_page1_resource"
+            type="object"
+            string="← Retour"
+            class="btn-secondary"/>
+
+    <button name="action_show_result"
+            type="object"
+            string="Terminer"
+            class="btn-success"/>
+</header>
+
+    <sheet>
+        <h2 style="text-align:center;">Quiz - Page 2 / 2</h2>
+
+        <group>
+            <field name="question4"/>
+            <field name="question5"/>
+            <field name="question6"/>
+        </group>
+    </sheet>
+</form>
+        </field>
+    </record>
+    <record id="view_applicant_email_list" model="ir.ui.view">
+    <field name="name">hr.applicant.email.list</field>
+    <field name="model">hr.applicant</field>
+    <field name="arch" type="xml">
+        <list string="Emails des candidats">
+            <field name="email_from"/>
+        </list>
+    </field>
+</record>
+    <record id="view_quiz_result" model="ir.ui.view">
+    <field name="name">quiz.result.form</field>
+    <field name="model">blank.page</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+
+                <div style="
+                    background-color: #c299dc !important;
+                    color: white;
+                    padding: 40px;
+                    border-radius: 20px;
+                    text-align: center;
+                ">
+
+                    <h1 style="color: white">🎯 Résultat du Quiz</h1>
+
+                    <p>
+                        Vous avez répondu correctement à
+                        <strong><field name="score"/></strong>
+                        / <field name="total_questions"/> questions
+                    </p>
+
+                    <div style="
+                        margin:30px auto;
+                        width:150px;
+                        height:150px;
+                        border-radius:50%;
+                        background:white;
+                        color:#764ba2;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-size:35px;
+                        font-weight:bold;
+                    ">
+                        <field name="pourcentage"/>%
+                    </div>
+
+                    <div style="width:80%; margin:auto;">
+                        <field name="pourcentage" widget="progressbar"/>
+                    </div>
+
+                    <h2 style="margin-top:20px; color: white">
+                        <field name="message"/>
+                    </h2>
+
+                </div>
+
+            </sheet>
+        </form>
+    </field>
+</record>
+    <record id="view_quiz_result_mobile" model="ir.ui.view">
+    <field name="name">quiz.result.mobile</field>
+    <field name="model">blank.page.mobile</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <h2>Résultat Quiz Mobile</h2>
+                <p>Score : <field name="score"/> / 6</p>
+                <p>Pourcentage : <field name="pourcentage"/>%</p>
+                <h3><field name="message"/></h3>
+            </sheet>
+        </form>
+    </field>
+</record>
+    <record id="view_quiz_result_resource" model="ir.ui.view">
+    <field name="name">quiz.result.resource</field>
+    <field name="model">blank.page.resource</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <h2>Résultat Quiz RH</h2>
+                <p>Score : <field name="score"/> / 6</p>
+                <p>Pourcentage : <field name="pourcentage"/>%</p>
+                <h3><field name="message"/></h3>
+            </sheet>
+        </form>
+    </field>
+</record>
+   <record id="ir_cron_auto_interview" model="ir.cron">
+    <field name="name">Planification automatique entretiens</field>
+    <field name="model_id" ref="model_interview_auto"/>
+    <field name="state">code</field>
+    <field name="code">model.cron_schedule_interviews()</field>
+
+    <field name="interval_number">1</field>
+    <field name="interval_type">days</field>
+    <field name="active">True</field>
+</record>
+<record id="view_static_dashboard_kanban_sidebar" model="ir.ui.view">
+    <field name="name">static.dashboard.sidebar</field>
+    <field name="model">static.dashboard</field>
+    <field name="inherit_id" ref="dashboard_recruteur.view_static_dashboard_kanban"/>
+    <field name="arch" type="xml">
+
+        <xpath expr="//kanban" position="attributes">
+            <attribute name="class">
+                o_kanban_dashboard o_dashboard_recruteur dashboard_with_sidebar
+            </attribute>
+        </xpath>
+
+        <xpath expr="//t[@t-name='card']" position="inside">
+
+            <div class="my_sidebar">
+                <h3>Dashboard</h3>
+
+                <ul>
+                    <li>🏠 Accueil</li>
+                    <li>
+    <button type="object"
+            name="action_open_blank_page"
+            class="btn btn-link custom-white-btn">
+        💻 Développement Web
+    </button>
+</li>
+                    <li><button type="object" name="action_open_blank_page_mobile" class="btn btn-link custom-white-btn">📱 Développement Mobile</button></li>
+                    <li><button type="object" name="action_open_blank_page_resource" class="btn btn-link custom-white-btn">👥 RH</button></li>
+<li>
+    <a href="/odoo/settings"
+       style="color:white; text-decoration:none;">
+       ⚙️ Paramètres
+    </a>
+</li>
+                    <li>🚪 Déconnexion</li>
+                </ul>
+
+            </div>
+
+        </xpath>
+
+    </field>
+</record>
+
+    <menuitem id="menu_static_dashboard_root" name="Tableau de bord" sequence="1"/>
+    <menuitem id="menu_static_dashboard" name="Vue statique"
+              parent="menu_static_dashboard_root"
+              action="action_static_dashboard"/>
+</odoo>
