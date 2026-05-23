@@ -49,12 +49,14 @@ pipeline {
         }
 
         stage('Install Extra Odoo deps') {
-            steps {
-                bat '''
-                venv\\Scripts\\python.exe -m pip install numpy pdfminer.six
-                '''
-            }
-        }
+    steps {
+        bat '''
+        venv\\Scripts\\python.exe -m pip install numpy
+        venv\\Scripts\\python.exe -m pip install pdfminer.six==20221105
+        venv\\Scripts\\python.exe -m pip install cryptography==3.4.8 pyOpenSSL==21.0.0 --force-reinstall
+        '''
+    }
+}
 
         stage('Check Odoo Startup') {
             steps {
@@ -72,7 +74,7 @@ pipeline {
                 venv\\Scripts\\python.exe %ODOO_DIR%\\odoo-bin ^
                 -d %DB_NAME% ^
                 -u dashboard_recruteur,pfe ^
-                --addons-path=%ODOO_DIR%\\addons;%WORKSPACE%\\addons ^
+                --addons-path=C:\\odoo1\\addons,C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\OdooDeploy\\addons
                 --stop-after-init
                 '''
             }
