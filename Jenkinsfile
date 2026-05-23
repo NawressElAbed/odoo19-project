@@ -48,16 +48,16 @@ pipeline {
             }
         }
 
-      stage('Install Extra Odoo deps') {
-    steps {
-        bat '''
-        venv\\Scripts\\python.exe -m pip install numpy
-        venv\\Scripts\\python.exe -m pip install pdfminer.six==20221105
-        venv\\Scripts\\python.exe -m pip install cryptography==3.4.8 pyOpenSSL==21.0.0 --force-reinstall
-        venv\\Scripts\\python.exe -m pip install sentence-transformers torch
-        '''
-    }
-}
+        stage('Install Extra Odoo deps') {
+            steps {
+                bat '''
+                venv\\Scripts\\python.exe -m pip install numpy
+                venv\\Scripts\\python.exe -m pip install pdfminer.six==20221105
+                venv\\Scripts\\python.exe -m pip install cryptography==3.4.8 pyOpenSSL==21.0.0 --force-reinstall
+                venv\\Scripts\\python.exe -m pip install sentence-transformers torch
+                '''
+            }
+        }
 
         stage('Check Odoo Startup') {
             steps {
@@ -68,28 +68,31 @@ pipeline {
         }
 
         stage('Update Odoo Modules') {
-    steps {
-        bat '''
-        set PYTHONPATH=%ODOO_DIR%
-
-        venv\\Scripts\\python.exe %ODOO_DIR%\\odoo-bin ^
-        -d %DB_NAME% ^
-        -u pfe ^
-        --stop-after-init ^
-        --no-http ^
-        --max-cron-threads=0
-
-        taskkill /F /IM python.exe /T
-        exit 0
-        '''
-    }
-}
-        stage('Restart Odoo Service') {
             steps {
                 bat '''
-                net stop odoo
+                set PYTHONPATH=%ODOO_DIR%
+
+                venv\\Scripts\\python.exe %ODOO_DIR%\\odoo-bin ^
+                -d %DB_NAME% ^
+                -u pfe ^
+                --stop-after-init ^
+                --no-http ^
+                --max-cron-threads=0
+                '''
+            }
+        }
+
+        stage('Restart Odoo (Safe)') {
+            steps {
+                bat '''
+                echo Restart Odoo safely...
+
+                REM Kill only Odoo process (NOT all Python)
+                wmic process where "commandline like '%%odoo-bin%%'" delete
+
                 timeout /t 5
-                net start odoo
+
+                start "" venv\\Scripts\\python.exe %ODOO_DIR%\\odoo-bin -c %ODOO_DIR%\\odoo.conf
                 '''
             }
         }
