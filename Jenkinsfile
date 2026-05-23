@@ -67,7 +67,7 @@ pipeline {
             }
         }
 
-        sstage('Update Odoo Modules') {
+        stage('Update Odoo Modules') {
     steps {
         bat '''
         set PYTHONPATH=%ODOO_DIR%
