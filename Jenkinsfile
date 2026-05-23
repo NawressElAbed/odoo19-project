@@ -3,6 +3,9 @@ pipeline {
 
     environment {
         PYTHON = "C:\\Users\\HP\\AppData\\Local\\Programs\\Python\\Python311\\python.exe"
+        ODOO_DIR = "C:\\odoo1"
+        VENV_DIR = "venv"
+        DB_NAME = "odoo_new"
     }
 
     stages {
@@ -29,15 +32,7 @@ pipeline {
             }
         }
 
-        stage('Check Python Version') {
-            steps {
-                bat '''
-                venv\\Scripts\\python.exe --version
-                '''
-            }
-        }
-
-        stage('Upgrade pip tools') {
+        stage('Upgrade pip') {
             steps {
                 bat '''
                 venv\\Scripts\\python.exe -m pip install --upgrade pip setuptools wheel
@@ -45,7 +40,7 @@ pipeline {
             }
         }
 
-        stage('Install dependencies') {
+        stage('Install Dependencies') {
             steps {
                 bat '''
                 venv\\Scripts\\python.exe -m pip install -r requirements.txt
@@ -53,20 +48,37 @@ pipeline {
             }
         }
 
- stage('Update Odoo modules') {
-    steps {
-        bat '''
-        set PYTHONPATH=C:\\odoo
+        stage('Install Extra Odoo deps') {
+            steps {
+                bat '''
+                venv\\Scripts\\python.exe -m pip install numpy pdfminer.six
+                '''
+            }
+        }
 
-        venv\\Scripts\\python.exe C:\\odoo\\odoo-bin ^
-        -d odoo_new ^
-        -u dashboard_recruteur,pfe ^
-        --addons-path=C:\\odoo\\addons;C:\\odoo1\\addons ^
-        --stop-after-init
-        '''
-    }
-}
-        stage('Restart Odoo') {
+        stage('Check Odoo Startup') {
+            steps {
+                bat '''
+                venv\\Scripts\\python.exe %ODOO_DIR%\\odoo-bin --version
+                '''
+            }
+        }
+
+        stage('Update Odoo Modules') {
+            steps {
+                bat '''
+                set PYTHONPATH=%ODOO_DIR%
+
+                venv\\Scripts\\python.exe %ODOO_DIR%\\odoo-bin ^
+                -d %DB_NAME% ^
+                -u dashboard_recruteur,pfe ^
+                --addons-path=%ODOO_DIR%\\addons;%WORKSPACE%\\addons ^
+                --stop-after-init
+                '''
+            }
+        }
+
+        stage('Restart Odoo Service') {
             steps {
                 bat '''
                 net stop odoo
@@ -79,11 +91,11 @@ pipeline {
 
     post {
         success {
-            echo '✅ Déploiement réussi'
+            echo "✅ Déploiement Odoo réussi"
         }
 
         failure {
-            echo '❌ Build échoué'
+            echo "❌ Échec du pipeline Odoo"
         }
     }
 }
