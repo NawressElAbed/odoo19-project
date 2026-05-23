@@ -67,20 +67,23 @@ pipeline {
             }
         }
 
-        stage('Update Odoo Modules') {
-            steps {
-                bat '''
-                set PYTHONPATH=%ODOO_DIR%
+        sstage('Update Odoo Modules') {
+    steps {
+        bat '''
+        set PYTHONPATH=%ODOO_DIR%
 
-                venv\\Scripts\\python.exe %ODOO_DIR%\\odoo-bin ^
-                -d %DB_NAME% ^
-                -u dashboard_recruteur,pfe ^
-                --addons-path=C:\\odoo1\\addons,C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\OdooDeploy\\addons
-                --stop-after-init
-                '''
-            }
-        }
+        venv\\Scripts\\python.exe %ODOO_DIR%\\odoo-bin ^
+        -d %DB_NAME% ^
+        -u pfe ^
+        --stop-after-init ^
+        --no-http ^
+        --max-cron-threads=0
 
+        taskkill /F /IM python.exe /T
+        exit 0
+        '''
+    }
+}
         stage('Restart Odoo Service') {
             steps {
                 bat '''
