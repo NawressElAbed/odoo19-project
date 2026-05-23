@@ -82,20 +82,22 @@ pipeline {
             }
         }
 
-        stage('Restart Odoo (Safe)') {
-            steps {
-                bat '''
-                echo Restart Odoo safely...
+       stage('Restart Odoo (Safe)') {
+    steps {
+        bat '''
+        echo Restart Odoo safely...
 
-                REM Kill only Odoo process (NOT all Python)
-                wmic process where "commandline like '%%odoo-bin%%'" delete
+        REM Kill only Odoo process
+        wmic process where "commandline like '%%odoo-bin%%'" delete
 
-                timeout /t 5
+        REM Jenkins-safe sleep (5 sec)
+        ping 127.0.0.1 -n 6 > nul
 
-                start "" venv\\Scripts\\python.exe %ODOO_DIR%\\odoo-bin -c %ODOO_DIR%\\odoo.conf
-                '''
-            }
-        }
+        REM Restart Odoo
+        start "" venv\\Scripts\\python.exe C:\\odoo1\\odoo-bin -c C:\\odoo1\\odoo.conf
+        '''
+    }
+}
     }
 
     post {
