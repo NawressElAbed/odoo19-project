@@ -48,12 +48,13 @@ pipeline {
             }
         }
 
-        stage('Install Extra Odoo deps') {
+      stage('Install Extra Odoo deps') {
     steps {
         bat '''
         venv\\Scripts\\python.exe -m pip install numpy
         venv\\Scripts\\python.exe -m pip install pdfminer.six==20221105
         venv\\Scripts\\python.exe -m pip install cryptography==3.4.8 pyOpenSSL==21.0.0 --force-reinstall
+        venv\\Scripts\\python.exe -m pip install sentence-transformers torch
         '''
     }
 }
